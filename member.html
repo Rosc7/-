@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>会员主页 - 小网站</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #e9ecef; }
+  .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 6px; box-shadow: 0 0 12px rgba(0,0,0,0.15); }
+  h2 { text-align: center; margin-bottom: 20px; }
+  button { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  button:hover { background: #c82333; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>欢迎，<span id="username"></span>！</h2>
+  <p>这是您的会员主页。</p>
+  <button onclick="logout()">退出登录</button>
+</div>
+
+<script>
+function checkLogin() {
+  const username = localStorage.getItem('loggedInUser');
+  if (!username) {
+    window.location.href = 'index.html';
+    return;
+  }
+  document.getElementById('username').textContent = username;
+}
+
+function logout() {
+  localStorage.removeItem('loggedInUser');
+  window.location.href = 'index.html';
+}
+
+checkLogin();
+</script>
+</body>
+</html>

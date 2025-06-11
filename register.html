@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>注册 - 小网站</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+  .container { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 6px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+  h2 { text-align: center; margin-bottom: 20px; }
+  input[type=text], input[type=password] { width: 100%; padding: 10px; margin: 6px 0 12px; border: 1px solid #ccc; border-radius: 4px; }
+  button { width: 100%; background: #007bff; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; }
+  button:hover { background: #0056b3; }
+  .link { margin-top: 10px; text-align: center; }
+  .link a { color: #007bff; text-decoration: none; }
+  .link a:hover { text-decoration: underline; }
+  .error { color: red; margin-bottom: 12px; }
+  .success { color: green; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>注册</h2>
+  <div id="error" class="error"></div>
+  <div id="success" class="success"></div>
+  <input type="text" id="username" placeholder="用户名" />
+  <input type="password" id="password" placeholder="密码" />
+  <input type="password" id="password2" placeholder="确认密码" />
+  <button onclick="register()">注册</button>
+  <div class="link">
+    <a href="index.html">已有账号？去登录</a>
+  </div>
+</div>
+
+<script>
+function register() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const password2 = document.getElementById('password2').value.trim();
+  const errorDiv = document.getElementById('error');
+  const successDiv = document.getElementById('success');
+  errorDiv.textContent = '';
+  successDiv.textContent = '';
+
+  if (!username || !password || !password2) {
+    errorDiv.textContent = '请填写所有字段';
+    return;
+  }
+  if (password !== password2) {
+    errorDiv.textContent = '两次密码输入不一致';
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('users') || '{}');
+  if (users[username]) {
+    errorDiv.textContent = '用户名已存在';
+    return;
+  }
+
+  users[username] = { password };
+  localStorage.setItem('users', JSON.stringify(users));
+  successDiv.textContent = '注册成功！2秒后跳转登录页...';
+
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 2000);
+}
+</script>
+</body>
+</html>
